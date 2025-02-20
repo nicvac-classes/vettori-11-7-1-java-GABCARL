@@ -1,79 +1,90 @@
-Funzione Inizio
-    Dichiara N, G, i: Intero
+import java.util.*;
+import java.lang.Math;
 
-    Assegna G = 0
-    Fai...mentre
-        Scrivi "Inserire quanti animali arriveranno al lago: "
-        Leggi N
-        Se N <= 0
-            Scrivi "Inserire un valore valido"
-        Fine
-    Ciclo N <= 0
-    Dichiara animali[N * 10]: Vettore Intero
+public class Program {
+    private static Random random = new Random();
+    private static Scanner input = new Scanner(System.in);
 
-    Assegna G = Inserisci(animali, G, 0)
-    Per i = 1 a N - 1
-        Assegna G = Inserisci(animali, G, i)
-        Chiama Visualizza(animali, G)
-        Se animali[i] > animali[i-1]
-            Assegna G = Rimuovi(animali, G, i-1)
-        Fine
-    Fine
-    Assegna G = RimuoviDuplicati(animali, G)
-    Chiama Visualizza(animali,G)
-Fine
+    public static void main(String[] args) {
+        int n, g, i;
 
-Funzione Inserisci (V: Vettore Intero, N: Intero, ie: Intero)
-    Dichiara N2: Intero
-    Dichiara elemento, i: Intero
+        g = 0;
+        do {
+            System.out.println("Inserire quanti animali arriveranno al lago: ");
+            n = input.nextInt();
+            if (n <= 0) {
+                System.out.println("Inserire un valore valido");
+            }
+        } while (n <= 0);
+        int[] animali = new int[n * 10];
 
-    Assegna elemento = (random(7) + 3) * 10
-    Assegna N2 = N + 1
-    Per i = N  a ie + 1 decrescente
-        Assegna V[i] = V[i-1]
-    Fine
-    Assegna V[ie] = elemento
-    Restituisci N2: Intero
-Fine
+        g = inserisci(animali, g, 0);
+        for (i = 1; i <= n - 1; i++) {
+            g = inserisci(animali, g, i);
+            visualizza(animali, g);
+            if (animali[i] > animali[i - 1]) {
+                g = rimuovi(animali, g, i - 1);
+            }
+        }
+        g = rimuoviDuplicati(animali, g);
+        visualizza(animali, g);
+    }
+    
+    public static int inserisci(int[] v, int n, int ie) {
+        int n2;
+        int elemento, i;
 
-Funzione Rimuovi (V: Vettore Intero, N: Intero, ie: Intero)
-    Dichiara N2: Intero
-    Dichiara i: Intero
+        elemento = random.nextInt(7) + 3 * 10;
+        n2 = n + 1;
+        for (i = n; i >= ie + 1; i--) {
+            v[i] = v[i - 1];
+        }
+        v[ie] = elemento;
+        
+        return n2;
+    }
+    
+    public static int rimuovi(int[] v, int n, int ie) {
+        int n2;
+        int i;
 
-    Assegna N2 = N - 1
-    Per i = ie a N2 - 1
-        Assegna V[i] = V[i + 1]
-    Fine
-    Restituisci N2: Intero
-Fine
+        n2 = n - 1;
+        for (i = ie; i <= n2 - 1; i++) {
+            v[i] = v[i + 1];
+        }
+        
+        return n2;
+    }
+    
+    public static int rimuoviDuplicati(int[] v, int n) {
+        int i, j;
 
-Funzione RimuoviDuplicati (V: Vettore Intero, N: Intero)
-    Dichiara i, j: Intero
+        i = 0;
+        while (i < n - 1) {
+            j = i + 1;
+            while (j < n) {
+                if (v[i] == v[j]) {
+                    n = rimuovi(v, n, j);
+                } else {
+                    j = j + 1;
+                }
+            }
+            i = i + 1;
+        }
+        
+        return n;
+    }
+    
+    public static void visualizza(int[] v, int n) {
+        int i;
 
-    Assegna i = 0
-    Mentre i < N - 1
-        Assegna j = i + 1
-        Mentre j < N
-            Se V[i] == V[j]
-                Assegna N = Rimuovi(V,N,j)
-            Altro
-                Assegna j = j + 1
-            Fine
-        Fine
-        Assegna i = i + 1
-    Fine
-    Restituisci N: Intero
-Fine
-
-Funzione Visualizza (V: Vettore Intero, N: Intero)
-    Dichiara i: Intero
-
-    Scrivi "[ "
-    Per i = 0 a N - 1
-        Scrivi " " & i + 1 & "° Animale: " & V[i]
-    Fine
-    Scrivi " ]"
-Fine
+        System.out.println("[ ");
+        for (i = 0; i <= n - 1; i++) {
+            System.out.println(" " + i + 1 + "° Animale: " + v[i]);
+        }
+        System.out.println(" ]");
+    }
+}
 
 
 //LEGGERE LE ISTRUZIONI NEL FILE README.md
